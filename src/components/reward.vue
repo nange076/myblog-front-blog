@@ -47,24 +47,24 @@
           </div>
         </el-col>
       </el-row>
-      <h1>@赞赏记录：</h1>
-      <el-table :data="tableData" border style="width: 100%">
-        <el-table-column
-          prop="payTime"
-          label="日期"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="name"
-          label="赞赏人"
-          align="center"
-        ></el-table-column>
-        <el-table-column
-          prop="money"
-          label="金额"
-          align="center"
-        ></el-table-column>
-      </el-table>
+<!--      <h1>@赞赏记录：</h1>-->
+<!--      <el-table :data="tableData" border style="width: 100%">-->
+<!--        <el-table-column-->
+<!--          prop="payTime"-->
+<!--          label="日期"-->
+<!--          align="center"-->
+<!--        ></el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="name"-->
+<!--          label="赞赏人"-->
+<!--          align="center"-->
+<!--        ></el-table-column>-->
+<!--        <el-table-column-->
+<!--          prop="money"-->
+<!--          label="金额"-->
+<!--          align="center"-->
+<!--        ></el-table-column>-->
+<!--      </el-table>-->
     </section>
   </div>
 </template>

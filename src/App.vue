@@ -160,7 +160,6 @@ a {
     border-radius: 5px;
     margin-bottom: 40px;
     font-size: 15px;
-    transition: all 0.2s linear;
 }
 .tcommonBox header{
     white-space: normal;
@@ -190,9 +189,6 @@ a {
 }
 .tcommonBox  header h2 .el-rate i{
     font-size: 16px;
-}
-.tcommonBox:hover{
-  transform: translate(0, -2px);
 }
 .s-item .article-coontent{
     font-size: 15px;

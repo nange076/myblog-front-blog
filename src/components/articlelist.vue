@@ -1,46 +1,51 @@
 <!-- 文章列表 -->
 <template>
+  <div>
     <el-row class="sharelistBox">
 
-        <el-col :span="24" class="s-item tcommonBox" v-for="(item,index) in articleList" :key="'article'+index">
-<div class="box">
-  <div class="box-center" >
-    <a :href="'#/DetailArticle?aid='+item.id" target="_blank" class="info-head" v-if="item.thumbnail!==''">
-      <img :src="item.thumbnail"  alt="" class="maxW">
-    </a>
-    <a :href="'#/DetailArticle?aid='+item.id" target="_blank" class="info-head" v-else>
-      <img src="http://img.zenithzone.top/pic/202209161846839.jpg"  alt="" class="maxW">
-    </a>
-  </div>
-  <!--  右边，各种信息-->
-  <div class="box-right">
-    <!--标题-->
-      <a :href="'#/DetailArticle?aid='+item.id" target="_blank" class="info-head">
-        {{item.title}}
-      </a>
+      <el-col :span="24" class="s-item tcommonBox article" v-for="(item,index) in articleList" :key="'article'+index">
+        <div class="box">
+          <div class="box-center" >
+            <a :href="'#/DetailArticle?aid='+item.id" target="_blank" class="info-head" v-if="item.thumbnail!==''">
+              <img :src="item.thumbnail"  alt="" class="maxW">
+            </a>
+            <a :href="'#/DetailArticle?aid='+item.id" target="_blank" class="info-head" v-else>
+              <img src="http://img.zenithzone.top/pic/202209161846839.jpg"  alt="" class="maxW">
+            </a>
+          </div>
+          <!--  右边，各种信息-->
+          <div class="box-right">
+            <!--标题-->
+            <a :href="'#/DetailArticle?aid='+item.id" target="_blank" class="info-head">
+              {{item.title}}
+            </a>
 
-    <!--          简介-->
-      <a class="info-summary" :href="'#/DetailArticle?aid='+item.id" target="_blank" >
-        {{item.summary}}
-      </a>
-    <!--          统计信息-->
-    <h2 class="info-bottom">
-      <i class="fa fa-fw fa-clock-o"></i><span v-html="showInitDate(item.createTime,'all')">{{showInitDate(item.createTime,'all')}}</span> •
-      <i class="fa fa-fw fa-eye"></i>{{item.viewCount}} 次围观 •
-      <a :href="'#/Share?classId='+item.categoryId" class="info-type">
-        <i class="el-icon-document" >{{item.categoryName}} </i>
-      </a>
-      </h2>
+            <!--          简介-->
+            <a class="info-summary" :href="'#/DetailArticle?aid='+item.id" target="_blank" >
+              {{item.summary}}
+            </a>
+            <!--          统计信息-->
+            <h2 class="info-bottom">
+              <i class="fa fa-fw fa-clock-o"></i><span v-html="showInitDate(item.createTime,'all')">{{showInitDate(item.createTime,'all')}}</span> •
+              <i class="fa fa-fw fa-eye"></i>{{item.viewCount}} 次围观 •
+              <a :href="'#/Share?classId='+item.categoryId" class="info-type">
+                <i class="el-icon-document" >{{item.categoryName}} </i>
+              </a>
+            </h2>
 
-  </div>
-</div>
-
-        </el-col>
-         <el-col class="viewmore">
-            <a v-show="hasMore" class="tcolors-bg" href="javascript:void(0);" @click="addMoreFun">点击加载更多</a>
-            <a v-show="!hasMore" class="tcolors-bg" href="javascript:void(0);">暂无更多数据</a>
-        </el-col>
+          </div>
+        </div>
+      </el-col>
+      <el-col style="text-align: center">
+        <el-pagination
+          :page-size="queryParams.pageSize"
+          :current-page.sync="queryParams.pageNum"
+          @current-change="showSearchShowList"
+          layout="total, prev, pager, next ,jumper"
+          :total="total" />
+      </el-col>
     </el-row>
+  </div>
 </template>
 
 <script>
@@ -57,7 +62,7 @@ import {articleList} from '../api/article'
                     categoryId: 0
                 },
                 articleList:[],
-                hasMore:true
+                total:0,
             }
         },
 
@@ -67,24 +72,15 @@ import {articleList} from '../api/article'
             },
             getList(){
                 articleList(this.queryParams).then((response)=>{
-                    this.articleList = this.articleList.concat(response.rows)
-                    if(response.total<=this.articleList.length){
-                        this.hasMore=false
-                    }else{
-                        this.hasMore=true
-                        this.queryParams.pageNum++
-                    }
+                    this.articleList = response.rows
+                    this.total=  parseInt(response.total)
                 })
             },
             showSearchShowList:function(initData){//展示数据
                 if(initData){
                     this.articleList = []
-
                 }
                 this.getList()
-            },
-            addMoreFun:function(){//查看更多
-                this.showSearchShowList(false);
             },
             routeChange:function(){
                 var that = this;
@@ -109,6 +105,40 @@ import {articleList} from '../api/article'
 </script>
 
 <style>
+/*分页按钮*/
+/deep/.el-pagination.is-background .el-pager li:not(.disabled) {
+  background-color: #0e1423;
+color: #8fb1d2;
+  border: 1px solid #4581ae;
+  border-radius: 5px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+}
+/deep/.el-pagination.is-background .el-pager li:not(.disabled).active{
+  background-color: #2b597d;
+  color: #cafbfd;
+}
+
+  /deep/.el-pagination.is-background .btn-next{
+   margin: 0 5px;
+    background-color: #0e1423;
+    color: #8eb1cc;
+    min-width: 68px;
+    height: 40px;
+    border-radius: 5px;
+    border:1px solid #4581ae ;
+  }
+/deep/.el-pagination.is-background .btn-prev{
+  margin: 0 5px;
+  background-color: #0e1423;
+  color: #8eb1cc;
+  min-width: 68px;
+  height: 40px;
+  border-radius: 5px;
+  border:1px solid #4581ae ;
+}
+
 /*分享标题*/
 .shareTitle{
     margin-bottom: 40px;
@@ -145,11 +175,14 @@ import {articleList} from '../api/article'
 }
 /*文章列表*/
     .sharelistBox{
-        transition: all 0.5s ease-out;
         font-size: 15px;
     }
-
-
+    .article{
+      transition: all 0.2s linear;
+    }
+    .article:hover{
+      transform: translate(0, -2px);
+    }
     /*.sharelistBox .viewmore a:hover,.s-item .viewdetail a:hover{
         background: #48456C;
     }*/

@@ -49,5 +49,6 @@ export default {
 }
 .box{
   padding-bottom: 20px;
+  z-index: 9;
 }
 </style>
