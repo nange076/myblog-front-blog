@@ -1,7 +1,7 @@
 <!-- 文章详情模块 -->
 <template>
         <div class="detailBox tcommonBox" >
-            <header>
+            <header class="head">
                 <h1>
                     <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank">
                         {{detailObj.title}}
@@ -103,7 +103,6 @@ import { mavonEditor } from 'mavon-editor'
         },
         created() { //生命周期函数
             var that = this;
-
             this.routeChange();
         },
 
@@ -1009,5 +1008,13 @@ import { mavonEditor } from 'mavon-editor'
 //}
 .detailBox{
   z-index: 2;
+}
+.tcommonBox{
+  background: transparent;
+  backdrop-filter: blur(1px);
+}
+.head{
+  background: transparent;
+  backdrop-filter: blur(2px);
 }
 </style>

@@ -226,7 +226,7 @@ export default {
 }
 .rightlistBox .r1-body .catch-me a:hover i {
   color: #fff;
-  background: #f4692c;
+  background: #6c95b7;
 }
 .rightlistBox .r1-body .catch-me a i {
   display: inline-block;
