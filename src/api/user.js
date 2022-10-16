@@ -47,3 +47,9 @@ export function savaUserInfo(userinfo) {
         data: userinfo
     })
 }
+export function getCaptcha() {
+  return request({
+    url: '/user/code',
+    method: 'get'
+  })
+}

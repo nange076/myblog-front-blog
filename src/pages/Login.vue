@@ -26,14 +26,21 @@
               placeholder="用户名"
               v-model="username">
             </el-input>
-
-            <el-input
-              type="password"
-              placeholder="密码"
-              @keyup.enter.native="loginEnterFun"
-              v-model="password">
-            </el-input>
-
+                <el-input
+                  type="password"
+                  placeholder="密码"
+                  @keyup.enter.native="loginEnterFun"
+                  v-model="password">
+                </el-input>
+            <div class="ca-box">
+              <el-input
+                class="ca-input"
+                type="text"
+                placeholder="验证码"
+                v-model="code"
+              ></el-input>
+              <img :src="captcha" class="ca">
+            </div>
 
             <div class="lr-btn tcolors-bg" @click="gotoHome">登录</div>
             <h3>
@@ -46,7 +53,7 @@
               <a href="javascript:void(0)"><i class="fa fa-fw fa-weibo"></i></a>
             </div>
           </div>
-          <div v-else class="registerBox">
+          <div v-else class="loginBox">
             <div class="lr-title">
               <h1>ZenithZone  天顶区</h1>
             </div>
@@ -125,7 +132,7 @@
 <script>
 import navbar from "../components/navbar";
 import foot from "../components/foot";
-import {userLogin,userRegister} from '../api/user.js'
+import {userLogin,userRegister,getCaptcha} from '../api/user.js'
 import {setToken} from '../utils/auth.js'
 export default {
   name: 'Login',
@@ -150,6 +157,9 @@ export default {
       step: 1,//注册进度
       fullscreenLoading: false,//全屏loading
       urlstate: 0,//重新注册
+      uuid:'',
+      captcha:'',
+      code:'',//验证码
     }
   },
   methods: { //事件处理器
@@ -227,6 +237,12 @@ export default {
     },
     goRegister: function(){//去注册
       this.$router.push({path:'/Login?login=0'});
+    },
+    getCaptchaInfo(){
+     getCaptcha().then(response =>{
+        this.uuid=response.uuid
+        this.captcha=response.img
+     })
     }
 
   },
@@ -236,12 +252,20 @@ export default {
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    '$route':'routeChange'
-  },
-  created() { //生命周期函数
+    '$route':'routeChange',
+    login:{
+      handler(newV,oldV){
+        if(this.login ==1){
+          this.getCaptchaInfo()
+        }
+      },
+    }
+
+},
+created() { //生命周期函数
     var that = this;
-    that.routeChange();
-  }
+    that.routeChange()
+  },
 }
 </script>
 
@@ -277,11 +301,25 @@ body{
     max-width:320px;
     margin:0 auto;
     border-radius: 10px;
-    box-shadow: 3px 3px 0 0 rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+  border-bottom: 2px solid #c8efd8;
+  border-right: 2px solid #c8efd8;
+  border-top: 2px solid white;
+  border-left: 2px solid white;
+  transition-duration: 1s;
+  transition-property: border-top,
+  border-left,
+  border-bottom,
+  border-right,
+  box-shadow;
     backdrop-filter: blur(2px);
 }
-.loginBox{
-    padding-bottom:0;
+.loginBox:hover{
+  border-top: 2px solid #6c95b7;
+  border-left: 2px solid #6c95b7;
+  border-bottom: 2px solid rgb(108, 149, 183);
+  border-right: 2px solid rgb(108, 149, 183);
+  box-shadow: rgba(48, 123, 185, 0.4) 5px 5px, rgba(48, 123, 185, 0.3) 10px 10px, rgba(48, 123, 185, 0.2) 15px 15px, rgba(48, 123, 185, 0.1) 20px 20px, rgba(48, 123, 185, 0.05) 25px 25px;
 }
 .lr-title{
     position: relative;
@@ -292,7 +330,7 @@ body{
 .lr-title h1{
     text-align: center;
     font-size: 24px;
-    color: #ffffff;
+    color: #48576a;
     font-weight: bold;
     /*width:50%;*/
 }
@@ -401,7 +439,7 @@ body{
     fong-size: 13px;
 }
 .form {
-  height: 100%;
+  height: 600px;
   background: transparent;
 }
 .el-input__inner{
@@ -432,5 +470,17 @@ body{
   text-align: right;
   color: #56124e;
 }
+.ca-box{
+  display: flex;
+  flex-flow: row;
+}
+.ca-input{
+ flex: 1 1 auto;
+}
+.ca{
+  padding: 0px 10px 20px;
+  flex: 1 1 auto;
+  position: relative;
 
+}
 </style>
