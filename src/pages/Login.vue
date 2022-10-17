@@ -11,9 +11,9 @@
         </h1>
         <!-- 登录注册 -->
         <div v-show="!err2005" class="form">
-          <div v-if="login==1" class="loginBox">
+          <el-form v-if="login==1" class="loginBox">
             <div class="lr-title">
-              <h1>ZenithZone  天顶区</h1>
+              <h1>ZenithZone</h1>
             </div>
             <el-alert
               v-show="loginErr"
@@ -39,12 +39,10 @@
                 placeholder="验证码"
                 v-model="code"
               ></el-input>
-              <img :src="captcha" class="ca">
+              <img :src="captcha" class="ca" @click="getCaptchaInfo">
             </div>
-
             <div class="lr-btn tcolors-bg" @click="gotoHome">登录</div>
             <h3>
-              <a href="#/Login?login=0" class="jumpLink">注册</a>
               <a href="">忘记密码？</a>
             </h3>
             <div class="otherLogin" >
@@ -52,10 +50,10 @@
               <a href="javascript:void(0)"><i class="fa fa-fw fa-qq"></i></a>
               <a href="javascript:void(0)"><i class="fa fa-fw fa-weibo"></i></a>
             </div>
-          </div>
-          <div v-else class="loginBox">
+          </el-form>
+          <el-form v-else class="loginBox">
             <div class="lr-title">
-              <h1>ZenithZone  天顶区</h1>
+              <h1>ZenithZone</h1>
             </div>
             <el-alert
               v-show="registerErr"
@@ -114,10 +112,7 @@
               show-icon  :closable="false">
             </el-alert>
             <div class="lr-btn tcolors-bg" @click="newRegister" v-loading.fullscreen.lock="fullscreenLoading"  element-loading-text="提交中">注册</div>
-            <h3>
-              <a href="#/Login?login=1" class="jumpLink">登录</a>
-            </h3>
-          </div>
+          </el-form>
         </div>
 
       </div>
@@ -168,7 +163,11 @@ export default {
       that.login = that.$route.query.login==undefined?1:parseInt(that.$route.query.login);//获取传参的login
       that.urlstate = that.$route.query.urlstate==undefined?0:that.$route.query.urlstate;//获取传参的usrlstate状态码
       // console.log(that.login,that.urlstate);
-
+      this.nusernameErr=false
+      this.npasswordErr=false
+      this.npassword2Err=false
+      this.registerErr=false
+      this.nemailErr=false
     },
     loginEnterFun: function(e){
       var keyCode = window.event? e.keyCode:e.which;
@@ -178,7 +177,7 @@ export default {
       }
     },
     gotoHome:function(){//用户登录
-      userLogin(this.username,this.password).then((response)=>{
+      userLogin(this.username,this.password,this.code,this.uuid).then((response)=>{
         // 登录成功记录token和用户信息，登录失败给对应提示
         setToken(response.token)
         // 存储用户信息
@@ -188,6 +187,7 @@ export default {
         }else{
           this.$router.push({path:'/'});
         }
+        this.getCaptchaInfo()
       })
 
     },
@@ -296,16 +296,18 @@ body{
     padding-top:50px;
     margin-bottom: 20px;
 }
-.loginBox ,.registerBox{
+.loginBox{
     padding:40px;
     max-width:320px;
     margin:0 auto;
     border-radius: 10px;
-    backdrop-filter: blur(10px);
-  border-bottom: 2px solid #c8efd8;
-  border-right: 2px solid #c8efd8;
-  border-top: 2px solid white;
-  border-left: 2px solid white;
+    backdrop-filter: blur(2rem);
+  background: transparent;
+  background: linear-gradient(to top, rgb(255, 255, 255,0.3) 0%, rgba(156, 118, 192, 0.3) 70%);
+  border-bottom: 2px solid #b1d8ee;
+  border-right: 2px solid #b1d8ee;
+  border-top: 2px solid #b6c6d3;
+  border-left: 2px solid #b6c6d3;
   transition-duration: 1s;
   transition-property: border-top,
   border-left,
@@ -342,7 +344,7 @@ body{
     top:0;
 }
 .lr-btn{
-    background-color: rgb(0, 0, 0,0.2);
+
     color: #ffffff;
     text-align: center;
     letter-spacing: 5px;
@@ -353,6 +355,7 @@ body{
     /* 给边框加阴影能够使其有立体感 */
     box-shadow: 2px 2px 0 0 rgba(0,0,0,0.3);
 }
+
 .loginBox .el-input,.registerBox .el-input{
     margin-bottom: 20px;
 }
@@ -444,26 +447,26 @@ body{
 }
 .el-input__inner{
   /* 使input框的背景变透明 */
-  background-color: rgba(114, 108, 108, 0.3);
+  background-color: rgb(255, 255, 255,0.5);
   /* 使边框也变透明 */
   border-color: rgba(245, 245, 245, 0.3);
   /* 改变获取焦点后的竖线颜色 */
-  caret-color: rgba(192, 231, 231, 0.79);
+  caret-color: rgba(30, 28, 28, 0.89);
   /* 给边框加阴影能够使其有立体感 */
   box-shadow: 2px 2px 0 0 rgba(0,0,0,0.2);
 
 }
 
 .el-input__inner:hover{
-  border-color: rgb(200, 239, 216);
+  border-color: rgb(108, 149, 183);
 }
 
 .el-input__inner:focus{
-  border-color: rgb(200, 239, 216);
+  border-color: rgb(108, 149, 183);
 }
 
 .el-input__inner::placeholder {
-  color: #e3dfdf;
+  color: rgba(0, 0, 0, 0.66);
   text-align:left;
 }
 .jumpLink{

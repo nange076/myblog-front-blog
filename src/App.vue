@@ -52,11 +52,15 @@ time, mark, audio, video {
   border: 0;
   font: inherit;
 }
+//背景图片和渐变
 body{
   font-family:Arial,"STHeiti", Helvetica, sans-serif;
   background:
-    linear-gradient(to right , rgba(98, 170, 168, 0.5), rgb(211, 217, 183,0.5)),
-    url("../static/img/bg/bg1.svg");
+    //绿黄配色
+    //linear-gradient(to right , rgba(98, 170, 168, 0.5), rgb(211, 217, 183,0.5)),
+    //淡蓝配色
+    linear-gradient(to right , rgba(238, 187, 233, 0.5) 0, rgba(104, 156, 178, 0.5)) 75%,
+    url("../static/img/bg/bg2.svg");
   font-size:14px;
   color:#444!important;
   min-height:100vh;
@@ -64,6 +68,18 @@ body{
   overflow-x: hidden;
   -webkit-overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
+}
+
+/*头部背景图*/
+.headImgBox {
+  position: relative;
+  height: 250px;
+  width: 100%;
+  background-size: cover;
+  background-position: center 50%;
+  background-repeat: no-repeat;
+  z-index: 1;
+  background-image: url("../static/img/bg/start.png");
 }
 
 table{
@@ -230,6 +246,62 @@ a {
 }
 .bg {
   background-size: 562px 1218px;
+}
+/* From uiverse.io by @nikk7007 */
+.btn {
+  --color: #6c95b7;
+  --color2: rgb(10, 25, 30);
+  padding: 0.8em 1.75em;
+  background-color: transparent;
+  border-radius: 6px;
+  border: .3px solid var(--color);
+  transition: .5s;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  z-index: 1;
+  font-weight: 300;
+  font-size: 17px;
+  font-family: 'Roboto', 'Segoe UI', sans-serif;
+  text-transform: uppercase;
+  color: var(--color);
+}
+
+.btn::after, .btn::before {
+  content: '';
+  display: block;
+  height: 100%;
+  width: 100%;
+  transform: skew(90deg) translate(-50%, -50%);
+  position: absolute;
+  inset: 50%;
+  left: 25%;
+  z-index: -1;
+  transition: .5s ease-out;
+  background-color: var(--color);
+}
+
+.btn::before {
+  top: -50%;
+  left: -25%;
+  transform: skew(90deg) rotate(180deg) translate(-50%, -50%);
+}
+
+.btn:hover::before {
+  transform: skew(45deg) rotate(180deg) translate(-50%, -50%);
+}
+
+.btn:hover::after {
+  transform: skew(45deg) translate(-50%, -50%);
+}
+
+.btn:hover {
+  color: var(--color2);
+}
+
+.btn:active {
+  filter: brightness(.7);
+  transform: scale(.98);
 }
 @media screen and (max-width: 500px) {//500px 手机尺寸
     .dlikeColBox{//点赞收藏手机端换行
