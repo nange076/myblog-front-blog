@@ -10,107 +10,82 @@
 
         </h1>
         <!-- 登录注册 -->
-        <div v-show="!err2005" class="form">
-          <el-form v-if="login==1" class="loginBox">
+        <div  class="form">
+          <el-form :model="form" status-icon :rules="rules" ref="form" v-if="login==1" class="loginBox">
             <div class="lr-title">
               <h1>ZenithZone</h1>
             </div>
-            <el-alert
-              v-show="loginErr"
-              :title="loginTitle"
-              type="error"
-              show-icon  :closable="false">
-            </el-alert>
-            <el-input
-              type="text"
-              placeholder="用户名"
-              v-model="username">
-            </el-input>
-                <el-input
-                  type="password"
-                  placeholder="密码"
-                  @keyup.enter.native="loginEnterFun"
-                  v-model="password">
-                </el-input>
-            <div class="ca-box">
+            <el-form-item prop="username">
               <el-input
-                class="ca-input"
                 type="text"
-                placeholder="验证码"
-                v-model="code"
-              ></el-input>
-              <img :src="captcha" class="ca" @click="getCaptchaInfo">
-            </div>
+                placeholder="用户名"
+                v-model="form.username">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="password">
+              <el-input
+                type="password"
+                placeholder="密码"
+                @keyup.enter.native="loginEnterFun"
+                v-model="form.password">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="code">
+              <div class="ca-box">
+                <el-input
+                  class="ca-input"
+                  type="text"
+                  placeholder="验证码"
+                  v-model="form.code"
+                ></el-input>
+                <img :src="captcha" class="ca" @click="getCaptchaInfo">
+              </div>
+            </el-form-item>
             <div class="lr-btn tcolors-bg" @click="gotoHome">登录</div>
             <h3>
               <a href="">忘记密码？</a>
             </h3>
-            <div class="otherLogin" >
-              <a href="javascript:void(0)"><i class="fa fa-fw fa-wechat"></i></a>
-              <a href="javascript:void(0)"><i class="fa fa-fw fa-qq"></i></a>
-              <a href="javascript:void(0)"><i class="fa fa-fw fa-weibo"></i></a>
-            </div>
           </el-form>
-          <el-form v-else class="loginBox">
+          <el-form :model="form" status-icon :rules="rules" ref="ruleForm" v-else class="loginBox">
             <div class="lr-title">
               <h1>ZenithZone</h1>
             </div>
-            <el-alert
-              v-show="registerErr"
-              :title="registerTitle"
-              type="error"
-              show-icon  :closable="false">
-            </el-alert>
-            <el-input
-              type="text"
-              placeholder="用户名"
-              v-model="nusername">
-            </el-input>
-            <el-alert
-              v-show="nusernameErr"
-              title="用户名错误"
-              type="error"
-              show-icon  :closable="false">
-            </el-alert>
-            <el-input
-              type="text"
-              placeholder="昵称"
-              v-model="nnickName">
-            </el-input>
-            <el-input
-              type="email"
-              placeholder="邮箱"
-              v-model="nemail">
-            </el-input>
-            <el-alert
-              v-show="nemailErr"
-              title="邮箱错误"
-              type="error"
-              show-icon  :closable="false">
-            </el-alert>
-            <el-input
-              type="password"
-              placeholder="密码:6-12位英文、数字、下划线"
-              v-model="npassword">
-            </el-input>
-            <el-alert
-              v-show="npasswordErr"
-              title="密码错误"
-              type="error"
-              show-icon  :closable="false">
-            </el-alert>
-            <el-input
-              type="password"
-              placeholder="确认密码"
-              @keyup.enter.native="registerEnterFun"
-              v-model="npassword2">
-            </el-input>
-            <el-alert
-              v-show="npassword2Err"
-              title="重复密码有误"
-              type="error"
-              show-icon  :closable="false">
-            </el-alert>
+            <el-form-item prop="nusername">
+              <el-input
+                type="text"
+                placeholder="用户名"
+                v-model="form.nusername">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="nnickName">
+              <el-input
+                type="text"
+                placeholder="昵称"
+                v-model="form.nnickName">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="nemail">
+              <el-input
+                type="email"
+                placeholder="邮箱"
+                v-model="form.nemail">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="npassword">
+              <el-input
+                type="password"
+                placeholder="密码:6-12位英文、数字、下划线"
+                v-model="form.npassword">
+              </el-input>
+            </el-form-item>
+            <el-form-item prop="npassword2">
+              <el-input
+                type="password"
+                placeholder="确认密码"
+                @keyup.enter.native="registerEnterFun"
+                v-model="form.npassword2">
+              </el-input>
+            </el-form-item>
             <div class="lr-btn tcolors-bg" @click="newRegister" v-loading.fullscreen.lock="fullscreenLoading"  element-loading-text="提交中">注册</div>
           </el-form>
         </div>
@@ -133,13 +108,17 @@ export default {
   name: 'Login',
   data() { //选项 / 数据
     return {
-      username: '',//用户名
-      email: '',//邮箱
-      password: '',//密码
-      nusername: '',//新用户注册名
-      nemail: '',//新用户注册邮箱
-      npassword: '',//新用户注册密码
-      npassword2: '',//新用户注册重复密码
+      form:{
+        username: '',//用户名
+        email: '',//邮箱
+        nnickName:'',//新用户昵称
+        password: '',//密码
+        nusername: '',//新用户注册名
+        nemail: '',//新用户注册邮箱
+        npassword: '',//新用户注册密码
+        npassword2: '',//新用户注册重复密码
+        code:'',//验证码
+      },
       login: 0,//是否已经登录
       loginErr: false,//登录错误
       loginTitle:'用户名或密码错误',
@@ -154,15 +133,43 @@ export default {
       urlstate: 0,//重新注册
       uuid:'',
       captcha:'',
-      code:'',//验证码
+      rules:{
+        username: [
+          {required: true ,message: '请输入用户名',trigger: 'blur'}
+        ],
+        email:[
+          {required: true ,message: '请输入邮箱',trigger: 'blur'}
+        ],
+        password:[
+          {required: true ,message: '请输入密码',trigger: 'blur'}
+        ],
+        nusername:[
+          {required: true ,message: '请输入用户名',trigger: 'blur'}
+        ],
+        nnickName:[
+          {required: true ,message: '请输入昵称',trigger: 'blur'}
+        ],
+        nemail:[
+          {required: true ,message: '请输入邮箱',trigger: 'blur'}
+        ],
+        npassword:[
+          {required: true ,message: '请输入密码',trigger: 'blur'}
+        ],
+        npassword2:[
+          {required: true ,message: '请再次输入密码',trigger: 'blur'}
+        ],
+        code:[
+          {required: true ,message: '请输入验证码',trigger: 'blur'}
+        ],
+      }
     }
   },
   methods: { //事件处理器
-    routeChange:function(){
+   async routeChange(){
       var that = this;
       that.login = that.$route.query.login==undefined?1:parseInt(that.$route.query.login);//获取传参的login
       that.urlstate = that.$route.query.urlstate==undefined?0:that.$route.query.urlstate;//获取传参的usrlstate状态码
-      // console.log(that.login,that.urlstate);
+      this.$refs.form.resetFields();
       this.nusernameErr=false
       this.npasswordErr=false
       this.npassword2Err=false
@@ -177,7 +184,7 @@ export default {
       }
     },
     gotoHome:function(){//用户登录
-      userLogin(this.username,this.password,this.code,this.uuid).then((response)=>{
+      userLogin(this.form.username,this.form.password,this.form.code,this.uuid).then((response)=>{
         // 登录成功记录token和用户信息，登录失败给对应提示
         setToken(response.token)
         // 存储用户信息
@@ -254,9 +261,10 @@ export default {
     // 如果路由有变化，会再次执行该方法
     '$route':'routeChange',
     login:{
-      handler(newV,oldV){
+      async handler(newV,oldV){
         if(this.login ==1){
-          this.getCaptchaInfo()
+         await this.getCaptchaInfo()
+         await this.$refs.form.resetFields()
         }
       },
     }
@@ -356,9 +364,6 @@ body{
     box-shadow: 2px 2px 0 0 rgba(0,0,0,0.3);
 }
 
-.loginBox .el-input,.registerBox .el-input{
-    margin-bottom: 20px;
-}
 .loginBox .el-alert ,.registerBox .el-alert{
     top:-18px;
     background-color: transparent;
@@ -481,7 +486,7 @@ body{
  flex: 1 1 auto;
 }
 .ca{
-  padding: 0px 10px 20px;
+  padding: 0px 10px 0px;
   flex: 1 1 auto;
   position: relative;
 
