@@ -86,7 +86,9 @@
                 v-model="form.npassword2">
               </el-input>
             </el-form-item>
-            <div class="lr-btn tcolors-bg" @click="newRegister" v-loading.fullscreen.lock="fullscreenLoading"  element-loading-text="提交中">注册</div>
+            <el-form-item>
+              <div class="lr-btn tcolors-bg" @click="newRegister" v-loading.fullscreen.lock="fullscreenLoading"  element-loading-text="提交中">注册</div>
+            </el-form-item>
           </el-form>
         </div>
 
@@ -107,6 +109,25 @@ import {setToken} from '../utils/auth.js'
 export default {
   name: 'Login',
   data() { //选项 / 数据
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'));
+      } else {
+        if (this.form.npassword2 !== '') {
+          this.$refs.form.validateField('npassword2');
+        }
+        callback();
+      }
+    };
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'));
+      } else if (value !== this.form.npassword) {
+        callback(new Error('两次输入密码不一致!'));
+      } else {
+        callback();
+      }
+    };
     return {
       form:{
         username: '',//用户名
@@ -133,6 +154,7 @@ export default {
       urlstate: 0,//重新注册
       uuid:'',
       captcha:'',
+
       rules:{
         username: [
           {required: true ,message: '请输入用户名',trigger: 'blur'}
@@ -153,15 +175,16 @@ export default {
           {required: true ,message: '请输入邮箱',trigger: 'blur'}
         ],
         npassword:[
-          {required: true ,message: '请输入密码',trigger: 'blur'}
+          {validator: validatePass,trigger: 'blur'}
         ],
         npassword2:[
-          {required: true ,message: '请再次输入密码',trigger: 'blur'}
+          {validator: validatePass2,trigger: 'blur'}
         ],
         code:[
           {required: true ,message: '请输入验证码',trigger: 'blur'}
         ],
       }
+
     }
   },
   methods: { //事件处理器
@@ -184,19 +207,25 @@ export default {
       }
     },
     gotoHome:function(){//用户登录
-      userLogin(this.form.username,this.form.password,this.form.code,this.uuid).then((response)=>{
-        // 登录成功记录token和用户信息，登录失败给对应提示
-        setToken(response.token)
-        // 存储用户信息
-        localStorage.setItem("userInfo",JSON.stringify(response.userInfo))
-        if(localStorage.getItem('logUrl')){
-          this.$router.push({path:localStorage.getItem('logUrl')});
-        }else{
-          this.$router.push({path:'/'});
-        }
-        this.getCaptchaInfo()
-      })
-
+     this.$refs.form.validate((valid)=>{
+       if(valid){
+         userLogin(this.form.username,this.form.password,this.form.code,this.uuid).then((response)=>{
+           // 登录成功记录token和用户信息，登录失败给对应提示
+           setToken(response.token)
+           // 存储用户信息
+           localStorage.setItem("userInfo",JSON.stringify(response.userInfo))
+           if(localStorage.getItem('logUrl')){
+             this.$router.push({path:localStorage.getItem('logUrl')});
+           }else{
+             this.$router.push({path:'/'});
+           }
+           this.getCaptchaInfo()
+         })
+       }else{
+         console.log('error submit!!');
+         return false;
+       }
+     });
     },
     registerEnterFun: function(e){
       var keyCode = window.event? e.keyCode:e.which;
