@@ -12,14 +12,14 @@ export function userLogin(username,password,code,uuid) {
     })
 }
 
-export function userRegister(username,nickName,email,password) {
+export function userRegister(username,nickName,email,password,uuid,code) {
     return request({
         url: '/user/register',
         method: 'post',
         headers: {
             isToken :false
         },
-        data: {"username":username,"nickName":nickName,"email":email,"password":password}
+        data: {"username":username,"nickName":nickName,"email":email,"password":password,"uuid":uuid,"code":code}
     })
 }
 
@@ -47,9 +47,16 @@ export function savaUserInfo(userinfo) {
         data: userinfo
     })
 }
+//获取登录界面的图形验证码
 export function getCaptcha() {
   return request({
     url: '/user/code',
     method: 'get'
+  })
+}
+export  function sendRegisterMail(emailAddress){
+  return request({
+    url: `/mail/send/${emailAddress}`,
+    method: 'get',
   })
 }

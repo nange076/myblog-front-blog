@@ -46,7 +46,7 @@
               <a href="">忘记密码？</a>
             </h3>
           </el-form>
-          <el-form :model="form" status-icon :rules="rules" ref="ruleForm" v-else class="loginBox">
+          <el-form :model="form" status-icon :rules="rules" ref="form" v-else class="loginBox">
             <div class="lr-title">
               <h1>ZenithZone</h1>
             </div>
@@ -64,12 +64,26 @@
                 v-model="form.nnickName">
               </el-input>
             </el-form-item>
-            <el-form-item prop="nemail">
+            <el-form-item prop="email">
               <el-input
                 type="email"
+                ref="email"
                 placeholder="邮箱"
-                v-model="form.nemail">
+                v-model="form.email">
               </el-input>
+            </el-form-item>
+            <el-form-item prop="code">
+              <div class="ca-box">
+                <el-input
+                  class="ca-input"
+                  type="text"
+                  placeholder="验证码"
+                  v-model="form.code"
+                ></el-input>
+                <el-tooltip effect="dark" content="获取邮箱验证码" placement="right-start">
+                  <div class="btn-small tcolors-bg" @click="getRegisterCode"  element-loading-text="获取验证码...">获取验证码</div>
+                </el-tooltip>
+              </div>
             </el-form-item>
             <el-form-item prop="npassword">
               <el-input
@@ -86,9 +100,7 @@
                 v-model="form.npassword2">
               </el-input>
             </el-form-item>
-            <el-form-item>
               <div class="lr-btn tcolors-bg" @click="newRegister" v-loading.fullscreen.lock="fullscreenLoading"  element-loading-text="提交中">注册</div>
-            </el-form-item>
           </el-form>
         </div>
 
@@ -104,8 +116,9 @@
 <script>
 import navbar from "../components/navbar";
 import foot from "../components/foot";
-import {userLogin,userRegister,getCaptcha} from '../api/user.js'
+import {userLogin,userRegister,getCaptcha,sendRegisterMail} from '../api/user.js'
 import {setToken} from '../utils/auth.js'
+import {Message} from "element-ui";
 export default {
   name: 'Login',
   data() { //选项 / 数据
@@ -135,32 +148,17 @@ export default {
         nnickName:'',//新用户昵称
         password: '',//密码
         nusername: '',//新用户注册名
-        nemail: '',//新用户注册邮箱
         npassword: '',//新用户注册密码
         npassword2: '',//新用户注册重复密码
         code:'',//验证码
       },
       login: 0,//是否已经登录
-      loginErr: false,//登录错误
-      loginTitle:'用户名或密码错误',
-      nusernameErr:false,//新用户注册用户名错误
-      nemailErr: false,//新用户注册邮箱错误
-      npasswordErr: false,//新用户注册密码错误
-      npassword2Err: false,//新用户注册重复密码错误
-      registerErr: false,//已注册错误
-      registerTitle: '该邮箱已注册',
-      step: 1,//注册进度
-      fullscreenLoading: false,//全屏loading
-      urlstate: 0,//重新注册
       uuid:'',
       captcha:'',
 
       rules:{
         username: [
           {required: true ,message: '请输入用户名',trigger: 'blur'}
-        ],
-        email:[
-          {required: true ,message: '请输入邮箱',trigger: 'blur'}
         ],
         password:[
           {required: true ,message: '请输入密码',trigger: 'blur'}
@@ -171,8 +169,9 @@ export default {
         nnickName:[
           {required: true ,message: '请输入昵称',trigger: 'blur'}
         ],
-        nemail:[
-          {required: true ,message: '请输入邮箱',trigger: 'blur'}
+        email:[
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
         ],
         npassword:[
           {validator: validatePass,trigger: 'blur'}
@@ -193,11 +192,6 @@ export default {
       that.login = that.$route.query.login==undefined?1:parseInt(that.$route.query.login);//获取传参的login
       that.urlstate = that.$route.query.urlstate==undefined?0:that.$route.query.urlstate;//获取传参的usrlstate状态码
       this.$refs.form.resetFields();
-      this.nusernameErr=false
-      this.npasswordErr=false
-      this.npassword2Err=false
-      this.registerErr=false
-      this.nemailErr=false
     },
     loginEnterFun: function(e){
       var keyCode = window.event? e.keyCode:e.which;
@@ -205,6 +199,19 @@ export default {
       if(keyCode == 13 ){
         this.gotoHome();
       }
+    },
+    //获取邮件验证码
+    getRegisterCode(){
+     this.$refs.form.validateField("email",(valid)=>{
+       if (valid.length>0){
+         console.log("email validated fail")
+         return
+       }
+       sendRegisterMail(this.form.email).then(res=>{
+          this.uuid=res.uuid
+          Message.success("邮件验证码发送成功")
+       })
+     })
     },
     gotoHome:function(){//用户登录
      this.$refs.form.validate((valid)=>{
@@ -235,38 +242,18 @@ export default {
       }
     },
     newRegister:function(){//注册提交
-      var that = this;
-      var reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/ ;
-      var preg = /^(\w){6,12}$/;
-      if(that.nusername){
-        that.nusernameErr = false;
-      }else{
-        that.nusernameErr = true;
-      }
-      if(reg.test(that.nemail)){
-        that.nemailErr = false;
-      }else{
-        that.nemailErr = true;
-      }
-      if(that.npassword&&preg.test(that.npassword)){
-        that.npasswordErr = false;
-        if(that.npassword==that.npassword2){
-          that.npassword2Err = false;
-        }else{
-          that.npassword2Err = true;
+      this.$refs.form.validate((valid)=>{
+        if(valid){
+          this.fullscreenLoading = true;
+          userRegister(this.form.nusername,this.form.nnickName,this.form.email,this.form.npassword,this.uuid,this.form.code).then((response)=>{
+            //注册成功后跳转到登录
+            Message.success("注册成功！去登陆吧！")
+            this.goLogin()
+          }).catch((error)=>{
+            this.fullscreenLoading = false;
+          })
         }
-      }else{
-        that.npasswordErr = true;
-      }
-      if(!that.nusernameErr&&!that.nemailErr&&!that.npasswordErr){
-        that.fullscreenLoading = true;
-        userRegister(that.nusername,that.nnickName,that.nemail,that.npassword).then((response)=>{
-          //注册成功后调整到登录
-          that.goLogin()
-        }).catch((error)=>{
-          that.fullscreenLoading = false;
-        })
-      }
+      })
     },
     goLogin:function(){//去登陆
       this.$router.push({path:'/Login?login=1'});
@@ -381,18 +368,26 @@ body{
     top:0;
 }
 .lr-btn{
-
-    color: #ffffff;
     text-align: center;
     letter-spacing: 5px;
     padding:8px;
-    border-radius: 5px;
-    cursor: pointer;
     margin-bottom: 30px;
-    /* 给边框加阴影能够使其有立体感 */
-    box-shadow: 2px 2px 0 0 rgba(0,0,0,0.3);
 }
-
+.lr-btn ,.btn-small{
+  color: #ffffff;
+  border-radius: 5px;
+  cursor: pointer;
+  /* 给边框加阴影能够使其有立体感 */
+  box-shadow: 2px 2px 0 0 rgba(0,0,0,0.3);
+}
+.btn-small{
+  width: 100px;
+  height: 30px;
+  padding: 4px 10px 5px;
+  margin-left: 5px;
+  flex: 1 1 auto;
+  position: relative;
+}
 .loginBox .el-alert ,.registerBox .el-alert{
     top:-18px;
     background-color: transparent;
