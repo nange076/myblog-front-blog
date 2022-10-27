@@ -38,7 +38,7 @@ import Foot from "../components/foot";
             'sg-rightlist':rightlist,
         },
         created() { //生命周期函数
-
+          console.log(process.env.ENV)
         }
     }
 </script>

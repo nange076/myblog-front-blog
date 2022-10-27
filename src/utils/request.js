@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { Notification, MessageBox, Message } from 'element-ui'
 import router from '@/router'
-import store from '../store'
+import store, {state} from '../store'
 import { getToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
 
@@ -11,7 +11,7 @@ axios.defaults.headers['Content-Type'] = 'application/json;charset=utf-8'
 // 创建axios实例
 const service = axios.create({
   // axios中请求配置有baseURL选项，表示请求URL公共部分
-  baseURL: store.state.baseURL,
+  baseURL: state.baseURL,
   // 超时
   timeout: 10000
 })
