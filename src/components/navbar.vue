@@ -2,7 +2,7 @@
 <template>
   <div class="">
     <div class="headBack">
-      <el-row class="container">
+      <el-row >
         <el-col :span="24">
           <!-- pc端导航 -->
           <div class="headBox">

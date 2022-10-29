@@ -1,7 +1,7 @@
 <!-- 赞赏页面 -->
 <template>
   <div>
-	<sg-nav></sg-nav>
+    <navbar></navbar>
 	<div class="container">
 		<el-row :gutter="30">
 			<el-col :sm="24" :md="16" style="transition:all .5s ease-out;margin-bottom:30px;">
@@ -12,12 +12,14 @@
 			</el-col>
 		</el-row>
 	</div>
-  <foot></foot>
+    <div class="placeholder"></div>
+    <foot></foot>
   </div>
 </template>
 
 <script>
 import header from '../components/header.vue'
+import navbar from "../components/navbar";
 import rightlist from '../components/rightlist.vue'
 import reward from '../components/reward.vue'
 import foot from "../components/foot";
@@ -33,7 +35,8 @@ export default {
 	},
 	components: { //定义组件
     foot,
-		'sg-nav': header,
+		'sg-nav': header ,
+    'navbar':navbar,
 		'sg-reward': reward,
 		'sg-rightlist': rightlist,
 	},

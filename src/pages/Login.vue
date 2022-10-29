@@ -6,9 +6,6 @@
     </div>
     <div class="content">
       <div class="container">
-        <h1 class="loginTitle">
-
-        </h1>
         <!-- 登录注册 -->
         <div  class="form">
           <el-form :model="form" status-icon :rules="rules" ref="form" v-if="login==1" class="loginBox">

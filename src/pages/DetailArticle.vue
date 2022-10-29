@@ -1,7 +1,7 @@
 <!-- 文章详情 -->
 <template>
   <div>
-        <sg-nav></sg-nav>
+    <navbar></navbar>
         <div  class="container" id="detail">
             <el-row  :gutter="30">
                 <el-col :sm="24" :md="16" style="transition:all .5s ease-out;margin-bottom:30px;">
@@ -19,6 +19,7 @@
 
 <script>
 import header from '../components/header.vue'
+import navbar from "../components/navbar";
 import rightlist from '../components/rightlist.vue'
 import articleDetail from '../components/articleDetail.vue'
 import message from '../components/message.vue'
@@ -34,6 +35,7 @@ import foot from "../components/foot";
 
         },
         components: { //定义组件
+          navbar,
             'sg-nav':header,
             'sg-articleDetail':articleDetail,
             'sg-message':message,
@@ -57,8 +59,5 @@ import foot from "../components/foot";
 </script>
 
 <style>
-.bg{
-  background-position: left top;
-  background-repeat: repeat;
-}
+
 </style>

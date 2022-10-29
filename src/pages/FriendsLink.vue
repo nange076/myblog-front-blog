@@ -1,7 +1,7 @@
 <!-- 友情链接 -->
 <template>
   <div>
-        <sg-nav></sg-nav>
+    <navbar></navbar>
         <div class="container">
             <el-row  :gutter="30">
                 <el-col :sm="24" :md="16" style="transition:all .5s ease-out;margin-bottom:30px;">
@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import navbar from "../components/navbar";
 import header from '../components/header.vue'
 import friends from '../components/friends.vue'
 import rightlist from '../components/rightlist.vue'
@@ -35,6 +36,7 @@ import foot from "../components/foot";
         },
         components: { //定义组件
           foot,
+          navbar,
             'sg-nav':header,
             'sg-message':message,
             'sg-friends':friends,

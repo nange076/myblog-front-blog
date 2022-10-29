@@ -204,10 +204,18 @@ import { mavonEditor } from 'mavon-editor'
 }
 .head{
   height: 100%;
-  border-radius: 4px;
+  background: -webkit-linear-gradient(to right, rgba(247, 121, 125, 0.3), rgba(251, 215, 134, 0.3), rgba(198, 255, 221, 0.3));
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, rgba(247, 121, 125, 0.3), rgba(251, 215, 134, 0.3), rgba(198, 255, 221, 0.3));
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background-repeat: no-repeat;
+  border-radius: 100% 10% 100% 10% ;
+  border-color: transparent;
+  box-shadow: 23px 23px 46px #bebebe,
+    -23px -23px 46px #ffffff;
 }
 .editor{
-  padding: 0 20px;
+  padding: 10px 20px;
 }
 .markdown-body .highlight pre,
 .markdown-body pre {

@@ -140,9 +140,12 @@ a {
 .container{
     max-width: 80%;
     margin:0 auto;
-    padding:0 10px;
+    padding-top: 100px;
     // overflow-x: hidden;
     // -webkit-overflow-x: hidden;
+}
+.placeholder{
+  padding-top: 20px;
 }
 //时间和标题
 .s-round-date{

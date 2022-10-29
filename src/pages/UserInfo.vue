@@ -1,7 +1,7 @@
 <!-- 用户中心 -->
 <template>
   <div>
-        <wbc-nav></wbc-nav>
+    <navbar></navbar>
         <div class="container">
             <div v-show="isEdit" class="tcommonBox">
                 <header>
@@ -90,6 +90,7 @@
 </template>
 
 <script>
+import navbar from "../components/navbar";
 import header from '../components/header.vue'
 import foot from "../components/foot";
 import {getUserInfo,savaUserInfo} from '../api/user.js'//获取用户信息，保存用户信息
@@ -160,6 +161,7 @@ import store from '../store'
             }
         },
         components: { //定义组件
+          navbar,
             'wbc-nav':header,
           foot
         },
