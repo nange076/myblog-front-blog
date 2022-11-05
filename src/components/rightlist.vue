@@ -1,61 +1,51 @@
 ﻿<!-- 右侧固定导航栏 -->
 <template>
   <div class="rightlistBox">
-    <section>
-      <div class="r1-head">
-        <img
-          :src="
-            this.$store.state.themeObj.center_smailimg
-              ? this.$store.state.themeObj.center_smailimg
-              : 'static/img/lucy.jpg'
-          "
-          alt=""
-        />
-        <h1 v-if="this.$store.state.themeObj.user_start != 0">
-          <span>fly me to the moon</span>
-        </h1>
-      </div>
-      <div class="r1-body">
-        <p>haonan</p>
-        <div class="catch-me">
-          <div class="">
-            <el-tooltip class="item" content="Github" placement="top">
-              <a :href="catchMeObj.git" target="_blank"
-                ><i class="fa fa-fw fa-github"></i
-              ></a>
-            </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="QQ" placement="top">
-              <a :href="catchMeObj.qq" target="_blank"
-                ><i class="fa fa-fw fa-qq"></i
-              ></a>
-            </el-tooltip>
-            <el-tooltip
-              class="item"
-              effect="dark"
-              content="微信"
-              placement="top"
-            >
-              <a :href="catchMeObj.wechat" target="_blank"
-              ><i class="fa fa-fw fa-wechat"></i
-              ></a>
-            </el-tooltip>
+      <div class="card">
+        <div class="card-header"
+             style="background-image: url(/static/img/lucy.jpg)">
+          <div class="card-header-slanted-edge">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200"><path class="polygon" d="M-20,200,1000,0V200Z" /></svg>
+<!--            <a href="#" class="btn-follow"><span class="sr-only">Follow</span></a>-->
           </div>
-          <div class="">
+        </div>
+
+        <div class="card-body">
+          <h2 class="name">haonan</h2>
+          <h4 class="job-title">后端</h4>
+          <div class="bio">大四学生一枚</div>
+          <div class="social-accounts">
+            <a :href="catchMeObj.git" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+            <a :href="catchMeObj.wechat" target="_blank"><i class="fa fa-fw fa-wechat"></i></a>
+            <a :href="catchMeObj.qq" target="_blank"><i class="fa fa-fw fa-qq"></i></a>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="stats">
+            <div class="stat">
+              <span class="label">注册人数</span>
+              <span class="value" v-text="this.userCount"></span>
+            </div>
+            <div class="stat hasBorder">
+              <span class="label">已发布文章</span>
+              <span class="value" v-text="this.articleCount"></span>
+            </div>
           </div>
         </div>
       </div>
-    </section>
-    <section class="rs4">
-      <h2 class="ui label">热门文章</h2>
-      <ul>
-        <li v-for="(item, index) in browseList" :key="'browseList' + index">
-          <a :href="'#/DetailArticle?aid=' + item.id" target="_blank">{{
-            item.title
-          }}</a>
-          —— {{ item.viewCount }} 次围观
-        </li>
-      </ul>
-    </section>
+    <div class="hotArticle" >
+      <h2>热门文章</h2>
+      <h3>hot article</h3>
+      <div>
+        <ul>
+            <li v-for="(item, index) in browseList" :key="'browseList' + index">
+              <a :href="'#/DetailArticle?aid=' + item.id" target="_blank">
+                {{item.title }}-{{item.viewCount}}次访问</a>
+            </li>
+        </ul>
+      </div>
+    </div>
     <!-- 右侧上滑小图片 -->
     <div
       v-if="this.$store.state.themeObj.user_start != 0"
@@ -91,6 +81,7 @@
 
 <script>
 import { hotArticleList } from "../api/article";
+import {getCountInfo} from "../api/counter";
 export default {
   data() {
     //选项 / 数据
@@ -101,12 +92,13 @@ export default {
       going: false, //是否正在执行上滑动作
       browseList: "", //热门文章 浏览量最多
       artCommentList: "", //最新评论
+      articleCount:'',
+      userCount:'',
       catchMeObj: {
         //个人信息
         git: "https://github.com/nange076",
         qq: "/static/img/qq.png",
         wechat: "/static/img/wechat.png",
-
       },
     };
   },
@@ -136,6 +128,12 @@ export default {
         this.browseList = response;
       });
     },
+    getCount(){
+     getCountInfo().then((res) =>{
+        this.articleCount=res.articleCount;
+        this.userCount=res.userCount;
+     })
+    }
   },
   components: {
     //定义组件
@@ -162,7 +160,7 @@ export default {
     };
     //查询浏览量最多的10篇文章数据
     this.getHotArticleList();
-
+    this.getCount()
   },
 };
 </script>
@@ -183,177 +181,6 @@ export default {
   transform: translate(0, -2px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
-.rightlistBox .r1-head {
-  text-align: center;
-  border-radius: 4px 4px 0 0;
-  text-align: center;
-  position: relative;
-  /*box-shadow: inset 0 -70px 100px -50px rgba(0,0,0,.5);*/
-}
-.rightlistBox .r1-head img {
-  width: 100%;
-  min-height: 100px;
-}
-.rightlistBox .r1-head h1 {
-  position: absolute;
-  bottom: 5px;
-  margin: 0 0 0 -65px;
-  font-size: 20px;
-  letter-spacing: 0.5px;
-  color: #fff;
-  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.7);
-  font-weight: 700;
-  width: 130px;
-  left: 50%;
-}
-.rightlistBox .r1-head h1 span {
-  opacity: 0.3;
-}
-.rightlistBox .r1-body p {
-  font-size: 14px;
-  margin: 5px 0 8px 0;
-  font-weight: 700;
-  text-align: center;
-}
-.rightlistBox .r1-body .catch-me {
-  text-align: center;
-}
-.rightlistBox .r1-body .catch-me a {
-  display: inline-block;
-  margin-bottom: 7px;
-  position: relative;
-  text-decoration: none;
-}
-.rightlistBox .r1-body .catch-me a:hover i {
-  color: #fff;
-  background: #6c95b7;
-}
-.rightlistBox .r1-body .catch-me a i {
-  display: inline-block;
-  font-size: 18px;
-  width: 42px;
-  height: 42px;
-  line-height: 42px;
-  border-radius: 42px;
-  color: rgba(0, 0, 0, 0.5);
-  background: rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease-in-out;
-  font-style: normal;
-  margin: 0 3.2px;
-}
-
-/*************do you like me*******************/
-.rightlistBox .rs2 {
-  /*padding:10px 0 4px 0;*/
-  min-height: 100px;
-}
-.rightlistBox .rs2.fixed {
-  position: fixed;
-  top: 40px;
-  width: 22%;
-}
-.rightlistBox .rs2 p {
-  color: #df2050;
-  cursor: pointer;
-  font-size: 20px;
-  margin-bottom: 10px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  text-align: center;
-  margin-top: 10px;
-  font-weight: 500;
-}
-.rightlistBox .rs2 div {
-  color: #df2050;
-  cursor: pointer;
-  text-align: center;
-  font-size: 40px;
-  position: absolute;
-  width: 100%;
-  height: 100px;
-  line-height: 100px;
-  left: 0;
-  top: 30px;
-}
-.rightlistBox .rs2 div i.heart {
-  display: inline-block;
-  text-align: center;
-  width: 100px;
-  height: 100px;
-  margin-left: -20px;
-  margin-top: -5px;
-  background: url(../../static/img/heart.png) no-repeat;
-  background-position: 0 0;
-  cursor: pointer;
-  -webkit-transition: background-position 1s steps(28);
-  transition: background-position 1s steps(28);
-  -webkit-transition-duration: 0s;
-  transition-duration: 0s;
-  vertical-align: middle;
-}
-.rightlistBox .rs2 div i.heart:hover {
-  transform: scale(1.15);
-  -webkit-transform: scale(1.15);
-}
-.rightlistBox .rs2 div i.heart.active {
-  -webkit-transition-duration: 1s;
-  transition-duration: 1s;
-  background-position: -2800px 0;
-}
-.rightlistBox .rs2 div span {
-  margin-left: -30px;
-}
-/**********排队来说*************/
-.rightlistBox .rs3 .rs3-item {
-  font-size: 13px;
-  line-height: 20px;
-}
-.rightlistBox .rs3 .rs3-item a {
-  display: block;
-  padding: 5px;
-  transition: all 0.3s ease-out;
-  border-bottom: 1px solid #ddd;
-  margin: 5px 0;
-}
-.rightlistBox .rs3 .rs3-item a:hover {
-  background: rgba(230, 244, 250, 0.5);
-  border-radius: 5px;
-}
-.rightlistBox .rs3 .rs3-photo {
-  float: left;
-}
-.rightlistBox .rs3 .rs3-photo img {
-  border-radius: 50%;
-  width: 32px;
-  height: 32px;
-  object-fit: cover;
-}
-.rightlistBox .rs3 .rs3-inner {
-  margin-left: 40px;
-}
-.rightlistBox .rs3 .rs3-inner .rs3-author {
-  font-weight: 700;
-}
-.rightlistBox .rs3 .rs3-inner .rs3-text {
-  font-size: 12px;
-  text-align: justify;
-}
-.rightlistBox .rs3 .rs3-item:last-child a {
-  border-bottom: none;
-}
-/************排队看这些***************/
-.rightlistBox .rs4 li {
-  padding: 8px 0;
-  text-align: justify;
-}
-.rightlistBox .rs4 li a {
-  font-weight: 600;
-}
-.rightlistBox .rs4 li a:hover {
-  color: #64609e;
-}
-
 /*回到顶部*/
 /*返回到顶部*/
 .toTop {
@@ -402,4 +229,212 @@ export default {
 .goTophui {
   bottom: 120vh;
 }
+//新个人卡片
+@import url(https://fonts.googleapis.com/css?family=Exo+2:300,400,700);
+body{
+  padding:0;
+  margin:0;
+  font-size:14px;
+  font-family: "Exo 2", sans-serif;
+  color: #333;
+}
+
+.card{
+  border-radius: 5px;
+  position: relative;
+  width: 315px; /* Remove for full width */
+  height: 450px; /* Remove for full width */
+  margin:30px auto;
+  background: #fbfdff;
+  box-shadow: 0 0 100px rgba(0,0,0, .3);
+}
+.card-header{
+  border-radius: 5px;
+  position: relative;
+  height: 220px;
+  background-size: cover;
+  background-position: top;
+}
+.card-header:after{
+  content:'';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, rgb(5,85,134), rgba(181,181,181, 0.1));
+}
+
+.card-header-bar{
+  position: absolute;
+  top:0;
+  width: 100%;
+  z-index: 1;
+  width: 100%;
+}
+
+.sr-only{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  clip: rect(0,0,0,0);
+  border: none;
+  overflow: hidden;
+}
+.btn-message{
+  display: inline-block;
+  background: url(https://res.cloudinary.com/dj14cmwoz/image/upload/v1491077483/profile-card/images/message.svg) no-repeat;
+  width: 19.37px;
+  height: 16.99px;
+  margin-right:10px;
+  margin-top:10px;
+  float: right;
+}
+.btn-menu{
+  display: inline-block;
+  background: url(https://res.cloudinary.com/dj14cmwoz/image/upload/v1491077483/profile-card/images/menu.svg) no-repeat;
+  width: 19px;
+  height: 12.16px;
+  margin-left:10px;
+  margin-top:10px;
+  float: left;
+}
+
+svg .polygon{
+  fill: #fff;
+}
+.card-header-slanted-edge{
+  position: absolute;
+  bottom: -3px;
+  z-index: 1;
+  width: 100%;
+  right:0;
+  left:0;
+}
+
+.btn-follow{
+  position: absolute;
+  top: -15px;
+  right: 25px;
+  width: 45px;
+  height: 45px;
+  background: linear-gradient(to left, #2D77C1, #68FAC2);
+  border-radius:100%;
+  box-shadow: 0 10px 15px rgba(110,221,235, .53);
+}
+
+.btn-follow:after{
+  content: '';
+  position:absolute;
+  background: url(https://res.cloudinary.com/dj14cmwoz/image/upload/v1491077480/profile-card/images/add.svg) no-repeat;
+  width:17px;
+  height: 17px;
+  left: 50%;
+  top:50%;
+  transform: translate(-50%, -50%);
+}
+
+.card-body{
+  text-align:center;
+  padding-left: 10px;
+}
+
+.name{
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+
+.job-title{
+  font-size: 14px;
+  font-weight: 300;
+  margin-top: 5px;
+  color: #919191;
+}
+
+.bio{
+  font-size: 14px;
+  color: #7B7B7B;
+  font-weight: 300;
+  margin: 10px auto;
+  line-height: 20px;
+}
+.social-accounts img{
+  width: 15px;
+}
+
+.social-accounts a{
+  margin-left: 10px;
+}
+.social-accounts a:first-child{
+  margin-left: 0;
+}
+
+.card-footer{
+  /*position:fixed; /* Full card width/height */
+  position: absolute; /* Fixed card width/height */
+  left: 0;
+  width: 100%;
+  bottom: 20px;
+}
+.stats{
+  display: flex;
+  justify-content: center;
+}
+.stat{
+  box-sizing: border-box;
+  width: calc(100% / 3);
+  text-align: center;
+}
+.hasBorder{
+  border-left: 1px solid #EBEBEB;
+}
+.stat .label{
+  display: block;
+  text-transform: uppercase;
+  font-weight: 300;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: #95989A;
+}
+
+.stat .value{
+  display: block;
+  font-weight: 700;
+  font-size:20px;
+  margin-top: 5px;
+}
+
+.hotArticle{
+  display: flex;
+  flex-flow: column nowrap;
+  border-radius: 5px;
+  position: relative;
+  width: 315px; /* Remove for full width */
+  height: auto; /* Remove for full width */
+  margin:30px auto;
+  background: #fbfdff;
+  box-shadow: 0 0 100px rgba(0,0,0, .3);
+}
+.hotArticle h2{
+  padding-top: 10px;
+  text-align: center;
+  font-weight: 700;
+  font-size:20px;
+}
+.hotArticle h3{
+  text-align: center;
+  font-weight: 500;
+  color: #919191;
+  font-size:15px;
+}
+.hotArticle a{
+  text-align: left;
+  font-weight: 200;
+  font-size:13px;
+}
+.hotArticle li{
+
+  padding: 5px 10px 5px 10px;
+}
+
 </style>

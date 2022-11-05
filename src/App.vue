@@ -59,20 +59,24 @@ body{
     //绿黄配色
     //linear-gradient(to right , rgba(98, 170, 168, 0.5), rgb(211, 217, 183,0.5)),
     //淡蓝配色
-    linear-gradient(to right , rgba(238, 187, 233, 0.5) 0, rgba(104, 156, 178, 0.5)) 75%,
+    //linear-gradient(to right , rgba(238, 187, 233, 0.5) 0, rgba(104, 156, 178, 0.5)) 75%,
     //man of steel
     //linear-gradient(to right , rgba(120, 2, 6, 0.5) 0, rgba(6, 17, 97, 0.5)) 75%,
     //virgin
-    //linear-gradient(to right , rgba(201, 255, 191, 0.5) 0, rgba(255, 175, 189, 0.5)) 75%,
+    linear-gradient(to right , rgba(203, 255, 191, 0.5) 0, rgba(255, 175, 189, 0.3)) 75%,
     //Miaka
-    //linear-gradient(to right , rgba(252, 53, 76, 0.5) 0, rgba(10, 191, 188, 0.5)) 75%,
+    //linear-gradient(to right , rgba(252, 53, 76, 0.5) 0, rgba(10, 191, 188, 0.4)) 75%,
 
-    url("../static/img/bg/bg2.svg");
+    url("../static/img/bg/head.jpg")
+;
   font-size:14px;
   color:#444!important;
   min-height:100vh;
   width:100%;
   overflow-x: hidden;
+  background-attachment:fixed;
+  background-size: 100%;
+  background-repeat: no-repeat;
   -webkit-overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
 }
