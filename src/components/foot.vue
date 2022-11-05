@@ -4,6 +4,7 @@
       <a style="color: #fbfdff"> 备案号：</a>
       <span style="color:#419fd9;"> 赣ICP备2022008112号</span>
       <br>
+      <a style="color: #fbfdff">前端托管于腾讯云web容器--后端部署于阿里云轻量级服务器</a>
       <br>
       <a style="color: #fbfdff">Made By haonan</a>
     </div>
