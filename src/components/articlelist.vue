@@ -1,50 +1,40 @@
 <!-- 文章列表 -->
 <template>
-  <div>
-    <el-row class="sharelistBox">
-
-      <el-col :span="24" class="s-item tcommonBox article" v-for="(item,index) in articleList" :key="'article'+index">
-        <div class="box">
-          <div class="box-center" >
-            <a :href="'#/DetailArticle?aid='+item.id" target="_blank" class="info-head" v-if="item.thumbnail!==''">
-              <img :src="item.thumbnail"  alt="" class="maxW">
-            </a>
-            <a :href="'#/DetailArticle?aid='+item.id" target="_blank" class="info-head" v-else>
-              <img src="http://img.zenithzone.top/pic/202209161846839.jpg"  alt="" class="maxW">
-            </a>
-          </div>
-          <!--  右边，各种信息-->
-          <div class="box-right">
-            <!--标题-->
-            <a :href="'#/DetailArticle?aid='+item.id" target="_blank" class="info-head">
-              {{item.title}}
-            </a>
-
-            <!--          简介-->
-            <a class="info-summary" :href="'#/DetailArticle?aid='+item.id" target="_blank" >
-              {{item.summary}}
-            </a>
-            <!--          统计信息-->
-            <h2 class="info-bottom">
-              <i class="fa fa-fw fa-clock-o"></i><span v-html="showInitDate(item.createTime,'all')">{{showInitDate(item.createTime,'all')}}</span> •
-              <i class="fa fa-fw fa-eye"></i>{{item.viewCount}} 次围观 •
-              <a :href="'#/Share?classId='+item.categoryId" class="info-type">
-                <i class="el-icon-document" >{{item.categoryName}} </i>
-              </a>
-            </h2>
-
-          </div>
+  <div class="box">
+    <div v-for="(item,index) in articleList" :key="'article'+index" >
+      <div class="blog-card" v-bind:class="index%2==0?'':'alt'">
+        <div class="meta">
+          <div class="photo" v-if="item.thumbnail!==''" v-bind:style="{ 'background-image': 'url(' + item.thumbnail+ ')'}"></div>
+          <div class="photo" v-else style="background-image: url(https://img.zenithzone.top/pic/202211051709875.jpg)"></div>
+          <ul class="details">
+            <li class="author">作者：<a>haonan</a></li>
+            <li class="date" >创建时间：<a v-text="item.createTime"></a></li>
+            <li>- <a v-text="item.viewCount"></a>次围观 -</li>
+            <li class="tags">
+              <ul>
+                <li><a :href="'#/Share?classId='+item.categoryId" v-text="item.categoryName"></a></li>
+              </ul>
+            </li>
+          </ul>
         </div>
-      </el-col>
-      <el-col style="text-align: center">
-        <el-pagination
-          :page-size="queryParams.pageSize"
-          :current-page.sync="queryParams.pageNum"
-          @current-change="showSearchShowList"
-          layout="total, prev, pager, next ,jumper"
-          :total="total" />
-      </el-col>
-    </el-row>
+        <div class="description">
+          <h1 v-text="item.title"></h1>
+          <h2>edit by haonan</h2>
+          <p v-text="item.summary"></p>
+          <p class="read-more">
+            <a :href="'#/DetailArticle?aid='+item.id" target="_blank">查看更多</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="pager-box">
+      <el-pagination
+        :page-size="queryParams.pageSize"
+        :current-page.sync="queryParams.pageNum"
+        @current-change="showSearchShowList"
+        layout="total, prev, pager, next ,jumper"
+        :total="total" />
+    </div>
   </div>
 </template>
 
@@ -104,137 +94,155 @@ import {articleList} from '../api/article'
     }
 </script>
 
-<style>
-/*分页按钮*/
-/deep/.el-pagination.is-background .el-pager li:not(.disabled) {
-  background-color: #0e1423;
-color: #8fb1d2;
-  border: 1px solid #4581ae;
-  border-radius: 5px;
-  width: 40px;
-  height: 40px;
-  line-height: 40px;
-}
-/deep/.el-pagination.is-background .el-pager li:not(.disabled).active{
-  background-color: #2b597d;
-  color: #cafbfd;
-}
-
-  /deep/.el-pagination.is-background .btn-next{
-   margin: 0 5px;
-    background-color: #0e1423;
-    color: #8eb1cc;
-    min-width: 68px;
-    height: 40px;
-    border-radius: 5px;
-    border:1px solid #4581ae ;
-  }
-/deep/.el-pagination.is-background .btn-prev{
-  margin: 0 5px;
-  background-color: #0e1423;
-  color: #8eb1cc;
-  min-width: 68px;
-  height: 40px;
-  border-radius: 5px;
-  border:1px solid #4581ae ;
-}
-
-/*分享标题*/
-.shareTitle{
-    margin-bottom: 40px;
-    position: relative;
-    border-radius: 5px;
-    background: #fff;
-    padding:15px;
-}
-.shareclassTwo{
-    width:100%;
-}
-.shareclassTwo li{
-    display: inline-block;
-}
-.shareclassTwo li a{
-    display: inline-block;
-    padding:3px 7px;
-    margin:5px 10px;
-    color:#fff;
-    border-radius: 4px;
-    background: #64609E;
-    border: 1px solid #64609E;
-    transition: transform 0.2s linear;
-    -webkit-transition: transform 0.2s linear;
-}
-.shareclassTwo li a:hover{
-    transform: translate(0,-3px);
-    -webkit-transform: translate(0,-3px);
-}
-.shareclassTwo li a.active{
-    background: #fff;
-    color:#64609E;
-
-}
-/*文章列表*/
-    .sharelistBox{
-        font-size: 15px;
-        position: relative;
-    }
-    .article{
-      transition: all 0.2s linear;
-    }
-    .article:hover{
-      transform: translate(0, -2px);
-    }
-    /*.sharelistBox .viewmore a:hover,.s-item .viewdetail a:hover{
-        background: #48456C;
-    }*/
-.ui label{
-  color: #0e5e85;
+<style scoped>
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+* {
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
 }
 .box{
   display: flex;
-  flex-flow: row;
+  flex-flow: column nowrap;
 }
-.box-left{
-  padding-top: 10%;
-  flex: 0 1 100px;
+.box :last-child{
+  align-self: center;
 }
-.box-center{
-  flex: 5 1 375px;
-  overflow: clip;
-}
-.box-right{
-  flex: 5 1 600px;
-  display: flex;
-  flex-flow: column;
-}
-.info-head{
-  font-weight: bolder;
-  font-size: 1.25rem;
-  white-space: normal;
+html{
   overflow: hidden;
-  word-break: break-word;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  flex: 1 1 auto;
 }
-.info-summary{
-  padding-top: 10px;
-  flex: 4 1 auto;
+.blog-card {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem auto;
+  box-shadow: 0 3px 7px -1px rgba(0, 0, 0, 0.1);
+  margin-bottom: 1.6%;
+  background: #fff;
+  line-height: 1.4;
+  font-family: sans-serif;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 0;
 }
-.info-head:hover ,.info-summary:hover,.info-type:hover{
+.blog-card a {
+  color: inherit;
+}
+.blog-card a:hover {
   color: #6c95b7;
 }
-.info-bottom{
-  text-align: center;
-  padding-bottom: 10px;
-  position: absolute;bottom: 0;
-  flex: 1 1 auto;
+.blog-card:hover .photo {
+  transform: scale(1.3) rotate(3deg);
 }
-.maxW{
-  transition: all 0.6s;
+.blog-card .meta {
+  position: relative;
+  z-index: 0;
+  height: 200px;
 }
-.maxW:hover{
-  transform: scale(1.1);
+.blog-card .photo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.2s;
 }
+.blog-card .details, .blog-card .details ul {
+  margin: auto;
+  padding: 0;
+  list-style: none;
+}
+.blog-card .details {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -100%;
+  margin: auto;
+  transition: left 0.2s;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 10px;
+  width: 100%;
+  font-size: 0.9rem;
+}
+.blog-card .details a {
+  text-decoration: dotted underline;
+}
+.blog-card .details ul li {
+  display: inline-block;
+}
+.blog-card .details .tags li {
+  margin-right: 2px;
+}
+.blog-card .details .tags li:first-child {
+  margin-left: -4px;
+}
+.blog-card .description {
+  padding: 1rem;
+  background: #fff;
+  position: relative;
+  z-index: 1;
+}
+.blog-card .description h1, .blog-card .description h2 {
+  font-family: Poppins, sans-serif;
+}
+.blog-card .description h1 {
+  line-height: 1;
+  margin: 0;
+  font-size: 1.7rem;
+}
+.blog-card .description h2 {
+  font-size: 1rem;
+  font-weight: 300;
+  text-transform: uppercase;
+  color: #a2a2a2;
+  margin-top: 5px;
+}
+.blog-card .description .read-more {
+  text-align: right;
+}
+.blog-card .description .read-more a {
+  color: #6c95b7;
+  display: inline-block;
+  position: relative;
+  text-decoration: none;
+}
+.blog-card p {
+  position: relative;
+  margin: 1rem 0 0;
+}
+
+.blog-card:hover .details {
+  left: 0%;
+}
+@media (min-width: 640px) {
+  .blog-card {
+    flex-direction: row;
+    max-width: 700px;
+  }
+  .blog-card .meta {
+    flex-basis: 40%;
+    height: auto;
+  }
+  .blog-card .description {
+    flex-basis: 60%;
+  }
+  .blog-card.alt {
+    flex-direction: row-reverse;
+  }
+  .blog-card.alt .details {
+    padding-left: 25px;
+  }
+}
+/*重写element样式*/
+.pager-box >>> button,
+.pager-box >>> .el-pager li{
+  background-color: transparent !important;
+  color: rgba(0, 0, 0, 0.97) !important;
+  border: 1px solid #0672C4;
+}
+.pager-box >>> .el-pagination.is-background .el-pager li:not(.disabled).active {
+  background-color: #0672C4 !important;
+}
+
 </style>
