@@ -32,8 +32,10 @@
         :page-size="queryParams.pageSize"
         :current-page.sync="queryParams.pageNum"
         @current-change="showSearchShowList"
-        layout="total, prev, pager, next ,jumper"
-        :total="total" />
+        layout="prev,pager,next"
+        :hide-on-single-page="hidden"
+        :total="total">
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -51,6 +53,7 @@ import {articleList} from '../api/article'
                     pageSize: 10,
                     categoryId: 0
                 },
+                hidden:true,
                 articleList:[],
                 total:0,
             }
@@ -235,14 +238,6 @@ html{
   }
 }
 /*重写element样式*/
-.pager-box >>> button,
-.pager-box >>> .el-pager li{
-  background-color: transparent !important;
-  color: rgba(0, 0, 0, 0.97) !important;
-  border: 1px solid #0672C4;
-}
-.pager-box >>> .el-pagination.is-background .el-pager li:not(.disabled).active {
-  background-color: #0672C4 !important;
-}
+
 
 </style>

@@ -85,13 +85,5 @@ export default new Router({
 			},
 			name: 'UserInfo'
 		}, //用户个人中心
-    {
-      path: '/test',
-      component: resolve => require(['../pages/test.vue'], resolve),
-      meta: {
-        auth: true
-      },
-      name: 'UserInfo'
-    }, //用户个人中心
 	]
 })

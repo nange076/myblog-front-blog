@@ -17,22 +17,6 @@ export default {
 @tcolors: #419fd9;//按钮和标签颜色
 @tcolorm: #c8efd8;//分类的选中的颜色
 @tcolord: #6c95b7;//按钮hover 的颜色
-
-// /***** 粉红色主题****/
-// @tcolors:#97dffd;//按钮和标签颜色
-// @tcolorm:#64609E;//分类的选中的颜色
-// @tcolord:#48456D;//按钮hover 的颜色
-//
-// /******淡黄色主题*****/
-// @tcolors:#97dffd;//按钮和标签颜色
-// @tcolorm:#64609E;//分类的选中的颜色
-// @tcolord:#48456D;//按钮hover 的颜色
-//
-// /****** 淡紫色主题 ****/
-// @tcolors:#97dffd;//按钮和标签颜色
-// @tcolorm:#64609E;//分类的选中的颜色
-// @tcolord:#48456D;//按钮hover 的颜色
-
 /*reset*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -67,7 +51,7 @@ body{
     //Miaka
     //linear-gradient(to right , rgba(252, 53, 76, 0.5) 0, rgba(10, 191, 188, 0.4)) 75%,
 
-    url("../static/img/bg/head.jpg")
+    url("../static/img/bg/city.jpg")
 ;
   font-size:14px;
   color:#444!important;
@@ -186,7 +170,7 @@ a {
     word-break: break-all;
     position: relative;
     background: #fff;
-    padding:15px;
+    padding:1px;
     border-radius: 5px;
     margin-bottom: 40px;
     font-size: 15px;
@@ -445,15 +429,6 @@ a {
     background: @tcolord;
 }
 
-.paginationBox li.active{
-    background: @tcolorm;
-}
-.paginationBox li:hover{
-    color:@tcolord;
-}
-.el-pagination button:hover{
-    color:@tcolord;
-}
 .info-type{
   color: #53a4d2;
 }

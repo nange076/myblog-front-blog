@@ -1,7 +1,7 @@
 <!-- 文章详情模块 -->
 <template>
         <div class="detailBox tcommonBox" >
-            <header class="head">
+            <header>
                 <h1>
                     <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank">
                         {{detailObj.title}}
@@ -28,28 +28,10 @@
               :box-shadow="false"
               code-style="atom-one-light"
               box-shadow="false"
-              navigation="true"
-              box-shadow-style="0 2px 12px 0 rgba(10, 44, 52)"
+              navigation="false"
+              editor-background="#fbfdff"
+              box-shadow-style="0 0px 0px 0 rgba(10, 44, 52)"
             ></mavon-editor>
-            <div class="donate">
-                <div class="donate-word">
-                    <span @click="pdonate=!pdonate">赞赏</span>
-                </div>
-                <el-row :class="pdonate?'donate-body':'donate-body donate-body-show'" :gutter="30">
-                    <el-col  :span="12"   class="donate-item">
-                        <div class="donate-tip">
-                            <img :src="detailObj.wechat_image?detailObj.wechat_image: 'static/img/wechat_pay.png'" :onerror="$store.state.errorImg"/>
-                            <span>微信扫一扫，向我赞赏</span>
-                        </div>
-                    </el-col>
-                    <el-col :span="12"  class="donate-item">
-                        <div class="donate-tip">
-                            <img :src="detailObj.alipay_image?detailObj.alipay_image:'static/img/ali_pay.jpg'" :onerror="$store.state.errorImg"/>
-                            <span>支付宝扫一扫，向我赞赏</span>
-                        </div>
-                    </el-col>
-                </el-row>
-            </div>
         </div>
 </template>
 
@@ -199,20 +181,15 @@ import { mavonEditor } from 'mavon-editor'
   z-index: 2;
 }
 .tcommonBox{
-  background: transparent;
+  background: #fbfdff;
   backdrop-filter: blur(2px);
 }
 .head{
   height: 100%;
-  background: -webkit-linear-gradient(to right, rgba(247, 121, 125, 0.3), rgba(251, 215, 134, 0.3), rgba(198, 255, 221, 0.3));
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, rgba(247, 121, 125, 0.3), rgba(251, 215, 134, 0.3), rgba(198, 255, 221, 0.3));
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
   background-repeat: no-repeat;
-  border-radius: 100% 10% 100% 10% ;
-  border-color: transparent;
-  box-shadow: 23px 23px 46px #bebebe,
-    -23px -23px 46px #ffffff;
+  border-radius: 2px;
+  background: #fbfdff;
+
 }
 .editor{
   padding: 10px 20px;
