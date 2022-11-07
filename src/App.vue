@@ -59,10 +59,11 @@ body{
   width:100%;
   overflow-x: hidden;
   background-attachment:fixed;
-  background-size: 100%;
+  background-size: cover;
   background-repeat: no-repeat;
   -webkit-overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
+
 }
 .el-col {
   padding-top: 0;
