@@ -1,8 +1,8 @@
 <!-- 友情链接模块 -->
 <template>
 <div class="tFriendsBox">
-    <el-row>
-        <el-col :span="12" class="tf-item" v-for="(item,index) in friendslink" :key="'f'+index">
+  <el-row>
+    <el-col :span="12" class="tf-item" v-for="(item,index) in friendslink" :key="'f'+index">
             <a :href="item.address" target="_blank">
                 <img :src="item.logo?item.logo:'static/img/tou.jpg'"  :onerror="$store.state.errorImg">
                 <h4>{{item.name}}</h4>

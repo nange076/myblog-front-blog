@@ -1,9 +1,10 @@
 ﻿<!-- 右侧固定导航栏 -->
 <template>
   <div >
+<!--    个人资料卡片-->
       <div class="card">
         <div class="card-header"
-             style="background-image: url(/static/img/lucy.jpg)">
+             style="background-image: url(/static/img/bro.jpg)">
           <div class="card-header-slanted-edge">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 200"><path class="polygon" d="M-20,200,1000,0V200Z" /></svg>
 <!--            <a href="#" class="btn-follow"><span class="sr-only">Follow</span></a>-->
@@ -12,8 +13,8 @@
 
         <div class="card-body">
           <h2 class="name">haonan</h2>
-          <h4 class="job-title">后端</h4>
           <div class="bio">大四学生一枚</div>
+          <h4 class="job-title">寻找Java后端开发工作中~</h4>
           <div class="social-accounts">
             <a :href="catchMeObj.git" target="_blank"><i class="fa fa-fw fa-github"></i></a>
             <a :href="catchMeObj.wechat" target="_blank"><i class="fa fa-fw fa-wechat"></i></a>
@@ -35,13 +36,25 @@
         </div>
       </div>
     <div class="hotArticle" >
+      <div class="bar-tools">
+        <div class="bar-circle">
+          <span class="bar-red bar-box"></span>
+        </div>
+        <div class="bar-circle">
+          <span class="bar-yellow bar-box"></span>
+        </div>
+        <div class="bar-circle">
+          <span class="bar-green bar-box"></span>
+        </div>
+      </div>
       <h2>热门文章</h2>
       <h3>hot article</h3>
       <div>
         <ul>
-            <li v-for="(item, index) in browseList" :key="'browseList' + index">
-              <a :href="'#/DetailArticle?aid=' + item.id" target="_blank">
-                {{item.title }}-{{item.viewCount}}次访问</a>
+            <li class="li" v-for="(item, index) in browseList" :key="'browseList' + index">
+              <a :href="'#/DetailArticle?aid=' + item.id" target="_blank" class="article-a">
+                「{{item.title }}」-{{item.viewCount}}次访问.</a>
+              <a></a>
             </li>
         </ul>
       </div>
@@ -362,7 +375,6 @@ svg .polygon{
   border-radius: 50px;
   text-align: center;
   font-size: 30px;
-  box-shadow: 2px 2px 3px #999;
   border: #004dff;
   transition: 0.5s;
 }
@@ -384,4 +396,10 @@ svg .polygon{
   border-bottom: 15px solid #b7b1b1;
 }
 //返回按钮结束
+.li{
+  list-style: none;
+}
+.article-a:hover{
+  color: #6c95b7;
+}
 </style>

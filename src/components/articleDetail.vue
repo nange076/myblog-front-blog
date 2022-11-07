@@ -1,9 +1,20 @@
 <!-- 文章详情模块 -->
 <template>
         <div class="detailBox tcommonBox" >
-            <header>
-                <h1>
-                    <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank">
+          <header>
+            <div class="bar-tools">
+              <div class="bar-circle">
+                <span class="bar-red bar-box"></span>
+              </div>
+              <div class="bar-circle">
+                <span class="bar-yellow bar-box"></span>
+              </div>
+              <div class="bar-circle">
+                <span class="bar-green bar-box"></span>
+              </div>
+            </div>
+            <h1>
+              <a :href="'#/DetailShare?aid='+detailObj.id" target="_blank">
                         {{detailObj.title}}
                     </a>
                 </h1>
@@ -198,4 +209,6 @@ import { mavonEditor } from 'mavon-editor'
 .markdown-body pre {
   padding: 3px !important;
 }
+
+
 </style>

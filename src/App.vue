@@ -64,7 +64,10 @@ body{
   -webkit-overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
 }
-
+.el-col {
+  padding-top: 0;
+  margin-top: 0;
+}
 /*头部背景图*/
 .headImgBox {
   position: relative;
@@ -74,7 +77,7 @@ body{
   background-position: center 50%;
   background-repeat: no-repeat;
   z-index: 1;
-  background-image: url("../static/img/bg/start.png");
+  //background-image: url("../static/img/bg/start.png");
 }
 
 table{
@@ -92,7 +95,7 @@ legend{
 //   font-weight:normal
 // }
 ol, ul{
-  list-style:none
+  //list-style:none
 }
 caption, th{
   text-align:left
@@ -170,7 +173,6 @@ a {
     word-break: break-all;
     position: relative;
     background: #fff;
-    padding:1px;
     border-radius: 5px;
     margin-bottom: 40px;
     font-size: 15px;
@@ -523,5 +525,36 @@ a {
     color:#fff;
     line-height: 100%;
 }
+//頭部小圓點
+.bar-circle {
+  padding: 0 4px;
+}
+.bar-tools {
+  display: flex;
+  align-items: center;
+  padding: 9px;
+  background: linear-gradient(#504b45 0%, #3c3b37 100%);
+  -webkit-border-top-left-radius: 5px;
+  -webkit-border-top-right-radius: 5px;
+}
+.bar-box {
+  display: inline-block;
+  align-items: center;
+  width: 10px;
+  height: 10px;
+  padding: 1px;
+  border-radius: 50%;
+}
 
+.bar-red {
+  background-color: #ff605c;
+}
+
+.bar-yellow {
+  background-color: #ffbd44;
+}
+
+.bar-green {
+  background-color: #00ca4e;
+}
 </style>

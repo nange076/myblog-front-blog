@@ -3,12 +3,22 @@
   <div class="tRewardBox tcommonBox">
 
     <section>
-      <p>
+      <div class="bar-tools">
+        <div class="bar-circle">
+          <span class="bar-red bar-box"></span>
+        </div>
+        <div class="bar-circle">
+          <span class="bar-yellow bar-box"></span>
+        </div>
+        <div class="bar-circle">
+          <span class="bar-green bar-box"></span>
+        </div>
+      </div>
+      <p class="p">
         如果觉得文章对你有帮助，你可以请作者喝杯咖啡表示鼓励
         ☕️
         （请备注留下你的姓名/昵称方便公布赞赏记录。
       </p>
-      <h1>赞赏方式：</h1>
       <el-row :gutter="30">
         <el-col :span="8" class="donate-item">
           <div class="donate-tip">
@@ -163,5 +173,8 @@ export default {
 }
 .el-table--enable-row-hover .el-table__body tr:hover > td {
   background: transparent;
+}
+.p{
+  text-align: center;
 }
 </style>
