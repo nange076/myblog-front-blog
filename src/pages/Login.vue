@@ -7,11 +7,22 @@
     <div class="content">
       <div class="container">
         <!-- 登录注册 -->
-        <div  class="form">
           <el-form :model="form" status-icon :rules="rules" ref="form" v-if="login==1" class="loginBox">
+            <div class="bar-tools">
+              <div class="bar-circle">
+                <span class="bar-red bar-box"></span>
+              </div>
+              <div class="bar-circle">
+                <span class="bar-yellow bar-box"></span>
+              </div>
+              <div class="bar-circle">
+                <span class="bar-green bar-box"></span>
+              </div>
+            </div>
             <div class="lr-title">
               <h1>ZenithZone</h1>
             </div>
+            <div class="input-content">
             <el-form-item prop="username">
               <el-input
                 type="text"
@@ -38,15 +49,28 @@
                 <img :src="captcha" class="ca" @click="getCaptchaInfo">
               </div>
             </el-form-item>
-            <div class="lr-btn tcolors-bg" @click="gotoHome">登录</div>
-            <h3>
-              <a href="">忘记密码？</a>
-            </h3>
+              <div class="lr-btn tcolors-bg" @click="gotoHome">登录</div>
+<!--              <h3>-->
+<!--                <a href="">忘记密码？</a>-->
+<!--              </h3>-->
+            </div>
           </el-form>
           <el-form :model="form" status-icon :rules="rules" ref="form" v-else class="loginBox">
+            <div class="bar-tools">
+              <div class="bar-circle">
+                <span class="bar-red bar-box"></span>
+              </div>
+              <div class="bar-circle">
+                <span class="bar-yellow bar-box"></span>
+              </div>
+              <div class="bar-circle">
+                <span class="bar-green bar-box"></span>
+              </div>
+            </div>
             <div class="lr-title">
               <h1>ZenithZone</h1>
             </div>
+            <div class="input-content">
             <el-form-item prop="nusername">
               <el-input
                 type="text"
@@ -98,8 +122,8 @@
               </el-input>
             </el-form-item>
               <div class="lr-btn tcolors-bg" @click="newRegister" v-loading.fullscreen.lock="fullscreenLoading"  element-loading-text="提交中">注册</div>
+            </div>
           </el-form>
-        </div>
 
       </div>
     </div>
@@ -318,17 +342,16 @@ body{
     margin-bottom: 20px;
 }
 .loginBox{
-    padding:40px;
-    max-width:320px;
+    padding: 0px 0px 0px;
+    max-width: 400px;
     margin:0 auto;
     border-radius: 10px;
     backdrop-filter: blur(2rem);
-  background: transparent;
-  background: linear-gradient(to top, rgb(255, 255, 255,0.3) 0%, rgba(156, 118, 192, 0.3) 70%);
-  border-bottom: 2px solid #b1d8ee;
-  border-right: 2px solid #b1d8ee;
-  border-top: 2px solid #b6c6d3;
-  border-left: 2px solid #b6c6d3;
+  background: #fbfdff;
+  border-bottom: 2px solid #efd6c8;
+  border-right: 2px solid #d9a98f;
+  /*border-top: 2px solid #b6c6d3;*/
+  /*border-left: 2px solid #b6c6d3;*/
   transition-duration: 1s;
   transition-property: border-top,
   border-left,
@@ -338,11 +361,13 @@ body{
     backdrop-filter: blur(2px);
 }
 .loginBox:hover{
-  border-top: 2px solid #6c95b7;
-  border-left: 2px solid #6c95b7;
-  border-bottom: 2px solid rgb(108, 149, 183);
-  border-right: 2px solid rgb(108, 149, 183);
-  box-shadow: rgba(48, 123, 185, 0.4) 5px 5px, rgba(48, 123, 185, 0.3) 10px 10px, rgba(48, 123, 185, 0.2) 15px 15px, rgba(48, 123, 185, 0.1) 20px 20px, rgba(48, 123, 185, 0.05) 25px 25px;
+  /*border-top: 2px solid #6c95b7;*/
+  /*border-left: 2px solid #6c95b7;*/
+  border-bottom: 2px solid #efd6c8;
+  border-right: 2px solid #d9a98f;
+  box-shadow: rgba(243, 6, 70, 0.89) 5px 5px, rgba(224, 169, 34, 0.9) 10px 10px, rgba(82, 217, 29, 0.5) 15px 15px, rgba(133, 42, 194, 0.54) 20px 20px, rgba(48, 123, 185, 0.05) 25px 25px;
+  /*box-shadow: rgba(48, 123, 185, 0.4) 5px 5px, rgba(48, 123, 185, 0.3) 10px 10px, rgba(48, 123, 185, 0.2) 15px 15px, rgba(48, 123, 185, 0.1) 20px 20px, rgba(48, 123, 185, 0.05) 25px 25px;*/
+  /*box-shadow: rgba(240, 46, 170, 0.4) 5px 5px, rgba(240, 46, 170, 0.3) 10px 10px, rgba(240, 46, 170, 0.2) 15px 15px, rgba(240, 46, 170, 0.1) 20px 20px, rgba(240, 46, 170, 0.05) 25px 25px;*/
 }
 .lr-title{
     position: relative;
@@ -372,10 +397,11 @@ body{
 }
 .lr-btn ,.btn-small{
   color: #ffffff;
+  background: #46433e;
   border-radius: 5px;
   cursor: pointer;
   /* 给边框加阴影能够使其有立体感 */
-  box-shadow: 2px 2px 0 0 rgba(0,0,0,0.3);
+  box-shadow: 2px 2px 0 0 rgb(82, 75, 75);
 }
 .btn-small{
   width: 100px;
@@ -384,7 +410,9 @@ body{
   margin-left: 5px;
   flex: 1 1 auto;
   position: relative;
-}
+}.lr-btn:hover ,.btn-small:hover{
+  background: red;
+ }
 .loginBox .el-alert ,.registerBox .el-alert{
     top:-18px;
     background-color: transparent;
@@ -435,7 +463,9 @@ body{
 .loginBox .otherLogin a i.fa-weibo{
     background: #ff763b;
 }
-
+.input-content{
+  padding:  0px 40px ;
+}
 /*登录成功*/
 .registerSuc{
     padding: 40px;
@@ -467,17 +497,14 @@ body{
 .registerSuc .sucContent  .el-icon-close{
     fong-size: 13px;
 }
-.form {
-  height: 600px;
-  background: transparent;
-}
+
 .el-input__inner{
   /* 使input框的背景变透明 */
-  background-color: rgb(255, 255, 255,0.5);
+  background-color: rgba(168, 158, 158, 0.1);
   /* 使边框也变透明 */
-  border-color: rgba(245, 245, 245, 0.3);
+  border-color: rgba(168, 158, 158, 0.1);
   /* 改变获取焦点后的竖线颜色 */
-  caret-color: rgba(30, 28, 28, 0.89);
+  caret-color: rgba(0, 0, 0, 0.97);
   /* 给边框加阴影能够使其有立体感 */
   box-shadow: 2px 2px 0 0 rgba(0,0,0,0.2);
 
@@ -511,5 +538,8 @@ body{
   flex: 1 1 auto;
   position: relative;
 
+}
+.container{
+  padding-bottom: 20px;
 }
 </style>
