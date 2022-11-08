@@ -16,9 +16,18 @@
           <div class="bio">大四学生一枚</div>
           <h4 class="job-title">寻找Java后端开发工作中~</h4>
           <div class="social-accounts">
-            <a :href="catchMeObj.git" target="_blank"><i class="fa fa-fw fa-github"></i></a>
-            <a :href="catchMeObj.wechat" target="_blank"><i class="fa fa-fw fa-wechat"></i></a>
-            <a :href="catchMeObj.qq" target="_blank"><i class="fa fa-fw fa-qq"></i></a>
+            <div class="icon">
+              <a :href="catchMeObj.git" target="_blank"><i class="fa fa-fw fa-github"></i></a>
+            </div>
+            <div class="icon">
+              <i class="fa fa-fw fa-wechat"></i>
+              <img class="social-img" :src="catchMeObj.wechat" alt="微信">
+            </div>
+            <div class="icon">
+              <i class="fa fa-fw fa-qq"></i>
+              <img class="social-img" :src="catchMeObj.qq" alt="qq">
+            </div>
+
           </div>
         </div>
 
@@ -282,10 +291,25 @@ svg .polygon{
   margin: 10px auto;
   line-height: 20px;
 }
-.social-accounts img{
-  width: 15px;
+.social-accounts{
+  display: flex;
+  justify-content: center;
 }
-
+.social-accounts img{
+  //width: 15px;
+}
+.social-img{
+  display: none;
+  position: absolute;
+  width: 200px;
+  z-index: 10;
+}
+.icon:hover img{
+  display: block;
+}
+.social-accounts .icon{
+  margin: 5px 5px;
+}
 .social-accounts a{
   margin-left: 10px;
 }
